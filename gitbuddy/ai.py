@@ -1,13 +1,10 @@
-import os 
+import os
 from groq import Groq
 from dotenv import load_dotenv
 
-api_key = os.getenv("GROQ_API_KEY")
-if not api_key:
-    raise SystemExit("No API key found. Run 'gitbuddy setup' first.")
-client = Groq(api_key=api_key)
+load_dotenv()
 
-SYSTEM_PROMPT="""You are a Git command translator.
+SYSTEM_PROMPT = """You are a Git command translator.
 Convert natural language input into a single Git command.
 Reply with ONLY the raw git command, nothing else.
 No explanations, no markdown, no backticks.
@@ -18,11 +15,18 @@ Examples:
 "show me what changed" -> git diff
 "push to main" -> git push origin main
 
-Make sure to as everytime before running any commands.
+Make sure to ask everytime before running any commands.
 """
 
-def parse_command(user_input: str)-> str:
-    response=client.chat.completions.create(
+def get_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise SystemExit("No API key found. Run 'gitbuddy setup' first.")
+    return Groq(api_key=api_key)
+
+def parse_command(user_input: str) -> str:
+    client = get_client()
+    response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},

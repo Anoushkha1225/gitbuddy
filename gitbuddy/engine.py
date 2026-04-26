@@ -1,5 +1,4 @@
 import typer
-from gitbuddy.engine import GitEngine
 from gitbuddy.ai import parse_command
 from gitbuddy.commands.clone import clone as git_clone
 from gitbuddy.commands.commit import commit as git_commit

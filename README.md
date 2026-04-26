@@ -6,13 +6,7 @@ and a free [Groq API key](https://console.groq.com).
 ## Installation
 
 ```bash
-pip install gitbuddy-cli
-```
-
-or
-
-```bash
-pip install gitbuddy
+python -m pip install gitbuddy-cli
 ```
 
 ```bash
