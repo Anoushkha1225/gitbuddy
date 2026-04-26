@@ -2,7 +2,7 @@ import os
 from groq import Groq
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.expanduser("~"), ".gitbuddy.env"))
 
 SYSTEM_PROMPT = """You are a Git command translator.
 Convert natural language input into a single Git command.

@@ -18,7 +18,7 @@ def setup():
     console.print("\n[bold purple]GitBuddy Setup[/]")
     console.print("Get your free API key at: [bold]https://console.groq.com[/]\n")
     key = console.input("[bold cyan]Enter your Groq API key:[/] ").strip()
-    env_path = os.path.join(os.getcwd(), ".env")
+    env_path = os.path.join(os.path.expanduser("~"), ".gitbuddy.env")
     with open(env_path, "w") as f:
         f.write(f"GROQ_API_KEY={key}\n")
     console.print("\n[green]Setup complete! You can now use GitBuddy.[/]")
