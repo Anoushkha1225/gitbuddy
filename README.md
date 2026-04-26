@@ -3,8 +3,19 @@
 An AI-powered Git assistant that runs commands from natural language. Requires Python 3.10+
 and a free [Groq API key](https://console.groq.com).
 
+## Installation
+
+```bash
+pip install gitbuddy-cli
+```
+
+or
+
 ```bash
 pip install gitbuddy
+```
+
+```bash
 gitbuddy setup
 ```
 
