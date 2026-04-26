@@ -1,8 +1,8 @@
 import os
 import typer
 from gitbuddy.engine import GitEngine
-from gitbuddy.ai import parse_command
-from gitbuddy.commands.clone import clone as git_clone
+from gitbuddy.ai import parse_command, clear_history
+from gitbuddy.commands.clone import clone as git_clone, connect as git_connect
 from gitbuddy.commands.commit import commit as git_commit
 from gitbuddy.commands.branch import create_branch, list_branches, switch_branch
 from gitbuddy.commands.push import push as git_push, pull as git_pull
@@ -42,6 +42,11 @@ def clone(url: str = typer.Argument(..., help="Repo URL to clone"),
     git_clone(url, path)
 
 @app.command()
+def connect(url: str = typer.Argument(..., help="GitHub repo URL to connect")):
+    """Connect local repo to a remote GitHub URL."""
+    git_connect(url)
+
+@app.command()
 def commit(message: str = typer.Argument(None, help="Commit message")):
     """Stage all changes and commit."""
     git_commit(message)
@@ -71,6 +76,12 @@ def push(branch: str = typer.Argument("main"),
 def pull(branch: str = typer.Argument("main")):
     """Pull from remote."""
     git_pull(branch)
+
+@app.command()
+def clear():
+    """Clear GitBuddy command history."""
+    clear_history()
+    console.print("[green]History cleared.[/]")
 
 if __name__ == "__main__":
     app()
