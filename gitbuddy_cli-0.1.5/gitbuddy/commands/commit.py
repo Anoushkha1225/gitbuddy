@@ -2,19 +2,13 @@ def commit(message: str = None):
     from gitbuddy.engine import GitEngine
     from gitbuddy.ai import parse_command
     engine = GitEngine()
-    if not engine.is_git_repo():
-        print("Error: not inside a git repo. Run 'git init' first.")
-        return
-    if not engine.has_uncommitted_changes():
-        print("Nothing to commit — working tree is clean.")
-        return
     if not message:
         diff = engine.run("git diff --staged", confirm=False)
         if not diff:
             diff = engine.run("git diff", confirm=False)
         if not diff:
-            print("Nothing staged to commit.")
+            print("Nothing to commit.")
             return
         message = parse_command(f"generate a short git commit message for this diff:\n{diff}")
-    engine.run("git add .", confirm=False)
+    engine.run("git add .")
     engine.run(f'git commit -m "{message}"', confirm=False)
