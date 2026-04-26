@@ -1,9 +1,7 @@
-from gitbuddy.engine import GitEngine
-from gitbuddy.ai import parse_command
-
-engine = GitEngine()
-
 def commit(message: str = None):
+    from gitbuddy.engine import GitEngine
+    from gitbuddy.ai import parse_command
+    engine = GitEngine()
     if not message:
         diff = engine.run("git diff --staged", confirm=False)
         if not diff:
