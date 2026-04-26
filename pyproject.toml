@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gitbuddy"
+name = "gitbuddy-cli"
 version = "0.1.0"
 description = "AI-powered Git assistant that understands natural language"
 readme = "README.md"
