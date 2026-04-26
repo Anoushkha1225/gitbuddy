@@ -1,11 +1,12 @@
 import os
 import typer
 from gitbuddy.engine import GitEngine
-from gitbuddy.ai import parse_command, clear_history
+from gitbuddy.ai import parse_command, clear_history, CHAIN_WORKFLOWS, resolve_steps
 from gitbuddy.commands.clone import clone as git_clone, connect as git_connect
 from gitbuddy.commands.commit import commit as git_commit
 from gitbuddy.commands.branch import create_branch, list_branches, switch_branch
 from gitbuddy.commands.push import push as git_push, pull as git_pull
+from gitbuddy.commands.update import run_workflow
 from rich.console import Console
 
 app = typer.Typer()
@@ -27,8 +28,19 @@ def setup():
 def run(prompt: str = typer.Argument(..., help="Natural language git command")):
     """Run any git command using natural language."""
     console.print(f"\n[bold purple]GitBuddy[/] processing: [italic]{prompt}[/]")
-    command = parse_command(prompt)
-    engine.run(command)
+
+    result = parse_command(prompt)
+
+    if result.startswith("WORKFLOW:"):
+        workflow_name = result.replace("WORKFLOW:", "").strip()
+        if workflow_name in CHAIN_WORKFLOWS:
+            steps = resolve_steps(CHAIN_WORKFLOWS[workflow_name], prompt)
+            run_workflow(steps, prompt)
+        else:
+            console.print(f"[red]Unknown workflow: {workflow_name}[/]")
+        return
+
+    engine.run(result)
 
 @app.command()
 def direct(command: str = typer.Argument(..., help="Run a raw git command")):
