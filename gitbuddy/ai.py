@@ -14,8 +14,6 @@ Examples:
 "create a new branch called feature-login" -> git checkout -b feature-login
 "show me what changed" -> git diff
 "push to main" -> git push origin main
-
-Make sure to ask everytime before running any commands.
 """
 
 def get_client():
