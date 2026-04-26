@@ -5,13 +5,37 @@ from gitbuddy.prompts import confirm_command
 
 console = Console()
 
-
-
-
-
 class GitEngine:
     def __init__(self, repo_path: str = "."):
         self.repo_path = Path(repo_path).resolve()
+
+    def is_git_repo(self) -> bool:
+        result = subprocess.run(
+            "git rev-parse --is-inside-work-tree",
+            shell=True, cwd=self.repo_path, capture_output=True, text=True
+        )
+        return result.returncode == 0
+
+    def has_commits(self) -> bool:
+        result = subprocess.run(
+            "git rev-parse HEAD",
+            shell=True, cwd=self.repo_path, capture_output=True, text=True
+        )
+        return result.returncode == 0
+
+    def has_remote(self) -> bool:
+        result = subprocess.run(
+            "git remote",
+            shell=True, cwd=self.repo_path, capture_output=True, text=True
+        )
+        return bool(result.stdout.strip())
+
+    def has_uncommitted_changes(self) -> bool:
+        result = subprocess.run(
+            "git status --porcelain",
+            shell=True, cwd=self.repo_path, capture_output=True, text=True
+        )
+        return bool(result.stdout.strip())
 
     def run(self, command: str, confirm: bool = True) -> str:
         if confirm:
