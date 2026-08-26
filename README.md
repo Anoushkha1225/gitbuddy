@@ -51,6 +51,3 @@ Then restart your terminal.
 - Python 3.10+
 - Free Groq API key — [console.groq.com](https://console.groq.com)
 
-## License
-
-MIT
